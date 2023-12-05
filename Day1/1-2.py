@@ -94,6 +94,47 @@ def find_fives(s, digits_list):
             digits_list.append((index, "5"))
   return digits_list
 
+# Returns a list of tuples of (index, "6") where the spelled letter "six" begins
+def find_sixes(s, digits_list):
+  for index, character in enumerate(s):
+    if character == "s" and (index+2) < len(s):
+      if s[index+1] == "i":
+        if s[index+2] == "x":
+          digits_list.append((index, "6"))
+  return digits_list
+
+# Returns a list of tuples of (index, "7") where the spelled letter "seven" begins
+def find_sevens(s, digits_list):
+  for index, character in enumerate(s):
+    if character == "s" and (index+4) < len(s):
+      if s[index+1] == "e":
+        if s[index+2] == "v":
+          if s[index+3] == "e":
+            if s[index+4] == "n":
+              digits_list.append((index, "7"))
+  return digits_list
+
+# Returns a list of tuples of (index, "8") where the spelled letter "eight" begins
+def find_eights(s, digits_list):
+  for index, character in enumerate(s):
+    if character == "e" and (index+4) < len(s):
+      if s[index+1] == "i":
+        if s[index+2] == "g":
+          if s[index+3] == "h":
+            if s[index+4] == "t":
+              digits_list.append((index, "8"))
+  return digits_list
+
+# Returns a list of tuples of (index, "9") where the spelled letter "nine" begins
+def find_nines(s, digits_list):
+  for index, character in enumerate(s):
+    if character == "n" and (index+3) < len(s):
+      if s[index+1] == "i":
+        if s[index+2] == "n":
+          if s[index+3] == "e":
+            digits_list.append((index, "9"))
+  return digits_list
+
 # Returns the index of the minimum number in a list
 def find_minimum(digits_list):
   if len(digits_list) > 0:
