@@ -46,4 +46,27 @@ def find_ones(s, digits_list):
           digits_list.append((index, "1"))
   return digits_list
 
+
+# Returns the index of the minimum number in a list
+def find_minimum(digits_list):
+  if len(digits_list) > 0:
+    min = digits_list[0]
+    min_index = 0
+    for index, digit in enumerate(digits_list):
+      if digit < min:
+        min = digit
+        min_index = index
+    return min_index 
+
+# Returns the index of the maximum number in a list
+def find_maximum(digits_list):
+  if len(digits_list) > 0:
+    max = digits_list[0]
+    max_index = 0
+    for index, digit in enumerate(digits_list):
+      if digit > max:
+        max = digit
+        max_index = index
+    return max_index 
+
 main()
