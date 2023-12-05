@@ -14,6 +14,14 @@ def main():
     # Create a list of tuples, each tuple mapping an index to the digit it represents (or begins, in the case of letter-spelled digits)
     digits_list = find_digits(item, digits_list)
     digits_list = find_ones(item, digits_list)
+    digits_list = find_twos(item, digits_list)
+    digits_list = find_threes(item, digits_list)
+    digits_list = find_fours(item, digits_list)
+    digits_list = find_fives(item, digits_list)
+    digits_list = find_sixes(item, digits_list)
+    digits_list = find_sevens(item, digits_list)
+    digits_list = find_eights(item, digits_list)
+    digits_list = find_nines(item, digits_list)
 
     # unzip the list of tuples to make one list of indices, and another list of digits
     unzipped_digits_list = [[i for i, j in digits_list], [j for i, j in digits_list]]
@@ -64,6 +72,26 @@ def find_threes(s, digits_list):
           if s[index+3] == "e":
             if s[index+4] == "e":
               digits_list.append((index, "3"))
+  return digits_list
+
+# Returns a list of tuples of (index, "4") where the spelled letter "four" begins
+def find_fours(s, digits_list):
+  for index, character in enumerate(s):
+    if character == "f" and (index+3) < len(s):
+      if s[index+1] == "o":
+        if s[index+2] == "u":
+          if s[index+3] == "r":
+            digits_list.append((index, "4"))
+  return digits_list
+
+# Returns a list of tuples of (index, "5") where the spelled letter "five" begins
+def find_fives(s, digits_list):
+  for index, character in enumerate(s):
+    if character == "f" and (index+3) < len(s):
+      if s[index+1] == "i":
+        if s[index+2] == "v":
+          if s[index+3] == "e":
+            digits_list.append((index, "5"))
   return digits_list
 
 # Returns the index of the minimum number in a list
