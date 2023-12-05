@@ -46,6 +46,25 @@ def find_ones(s, digits_list):
           digits_list.append((index, "1"))
   return digits_list
 
+# Returns a list of tuples of (index, "2") where the spelled letter "two" begins
+def find_twos(s, digits_list):
+  for index, character in enumerate(s):
+    if character == "t" and (index+2) < len(s):
+      if s[index+1] == "w":
+        if s[index+2] == "o":
+          digits_list.append((index, "2"))
+  return digits_list
+
+# Returns a list of tuples of (index, "3") where the spelled letter "three" begins
+def find_threes(s, digits_list):
+  for index, character in enumerate(s):
+    if character == "t" and (index+4) < len(s):
+      if s[index+1] == "h":
+        if s[index+2] == "r":
+          if s[index+3] == "e":
+            if s[index+4] == "e":
+              digits_list.append((index, "3"))
+  return digits_list
 
 # Returns the index of the minimum number in a list
 def find_minimum(digits_list):
