@@ -1,5 +1,3 @@
-import re
-
 def main():
   game_data = []
 
@@ -25,7 +23,7 @@ def main():
   for game in game_data:
     # Reset possibility factor for each game
     possible = True
-    
+
     for set in game:
       for cube in set:
         number, color = cube.split()
