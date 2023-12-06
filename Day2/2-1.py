@@ -21,8 +21,11 @@ def main():
   sum = 0
   game_id = 1
 
+  # Iterate through each game, through each set, and examine each cube
   for game in game_data:
+    # Reset possibility factor for each game
     possible = True
+    
     for set in game:
       for cube in set:
         number, color = cube.split()
@@ -36,12 +39,12 @@ def main():
           if int(number) > blue:
             possible = False
 
-    # at the end of all the sets in the game, see if all cubes in all sets passed the possibility check
+    # At the end of all the sets in the game, see if all cubes in all sets passed the possibility check
     if possible == True:
-      # if the game was possible, add its Game ID to the sum total
+      # If the game was possible, add its Game ID to the sum total
       sum += game_id
     
-    # increment the game ID
+    # Increment the game ID
     game_id += 1
 
 

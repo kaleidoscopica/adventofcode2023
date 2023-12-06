@@ -16,8 +16,8 @@ def main():
   file.close()
 
   sum = 0
-  game_id = 1
 
+  # Iterate through each game, through each set, and examine each cube
   for game in game_data:
     # Reset stats for each game
     possible = True
@@ -45,6 +45,6 @@ def main():
     sum += power
 
 
-  print("The sum of the game IDs is:", sum)
+  print("The power of all games is:", sum)
 
 main()
