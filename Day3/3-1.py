@@ -39,7 +39,6 @@ def main():
               # If the next item in the row isn't a digit, we're done. 
               # Compute the final number
               final_number = int(number_string)
-              print("Found a valid part! It's", number_string)
               sum += final_number
               # Set the "distinct number" flag back to False
               distinct_number = False
@@ -55,7 +54,6 @@ def main():
           if valid_part_num == True:
             # Compute the final number
             final_number = int(number_string)
-            print("Found a valid part! It's", number_string)
             sum += final_number
             # Set the "distinct number" flag back to False
             distinct_number = False
@@ -82,7 +80,6 @@ def main():
             if valid_part_num == True:
               # Compute the final number
               final_number = int(number_string)
-              print("Found a valid part! It's", number_string)
               sum += final_number
               # Set the "distinct number" flag back to False
               distinct_number = False
@@ -98,7 +95,6 @@ def main():
           if valid_part_num == True:
             # Compute the final number
             final_number = int(number_string)
-            print("Found a valid part! It's", number_string)
             sum += final_number
             # Set the "distinct number" flag back to False
             distinct_number = False
