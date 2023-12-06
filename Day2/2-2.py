@@ -15,34 +15,34 @@ def main():
       game_data.append(new_line)
   file.close()
 
-  red = 12
-  green = 13
-  blue = 14
   sum = 0
   game_id = 1
 
   for game in game_data:
+    # Reset stats for each game
     possible = True
+    red = 0
+    green = 0
+    blue = 0
+    power = 0
+
     for set in game:
       for cube in set:
         number, color = cube.split()
         if color == "red":
           if int(number) > red:
-            possible = False
+            red = int(number)
         elif color == "green":
           if int(number) > green:
-            possible = False
+            green = int(number)
         elif color == "blue":
           if int(number) > blue:
-            possible = False
+            blue = int(number)
 
-    # at the end of all the sets in the game, see if all cubes in all sets passed the possibility check
-    if possible == True:
-      # if the game was possible, add its Game ID to the sum total
-      sum += game_id
-    
-    # increment the game ID
-    game_id += 1
+    # Calculate the power at the end of each game
+    power = red * blue * green
+    # Add each game's power to the sum total
+    sum += power
 
 
   print("The sum of the game IDs is:", sum)
