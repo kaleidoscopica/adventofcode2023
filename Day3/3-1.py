@@ -31,6 +31,17 @@ def main():
 
         valid_part_num = find_nearby_symbols(engine_schematic, row_index, col_index)
 
+      # If the character at that column is a digit, and it's NOT the first time we're seeing a digit set,
+      elif col.isdigit() and distinct_number:
+        # Go ahead and add that digit to the number string
+        number_string += col
+        # Then run through all the same checks, if it wasn't already found to be valid
+        # (since this will overwrite the value otherwise)
+        if not valid_part_num:
+          valid_part_num = find_nearby_symbols(engine_schematic, row_index, col_index)
+
+      # Do these whether it's a distinct number or not
+      if col.isdigit():
         if col_index < 139:
           # If there's not another digit after this, do post-checks
           if not engine_schematic[row_index][col_index+1].isdigit():
@@ -58,47 +69,6 @@ def main():
             # Set the "distinct number" flag back to False
             distinct_number = False
             # Set the "valid part number" flag back to False
-            valid_part_num = False
-          else:
-            # clear the number string
-            number_string = ""
-
-      # If the character at that column is a digit, and it's NOT the first time we're seeing a digit set,
-      elif col.isdigit() and distinct_number:
-        # Go ahead and add that digit to the number string
-        number_string += col
-        # Then run through all the same checks, if it wasn't already found to be valid
-        # (since this will overwrite the value otherwise)
-        if not valid_part_num:
-          valid_part_num = find_nearby_symbols(engine_schematic, row_index, col_index)
-
-        # Check the digit after it to see if we're at the end of the number
-        if col_index < 139:
-          # If there's not another digit after this, do post-checks
-          if not engine_schematic[row_index][col_index+1].isdigit():
-            ## Post-checks
-            if valid_part_num == True:
-              # Compute the final number
-              final_number = int(number_string)
-              sum += final_number
-              # Set the "distinct number" flag back to False
-              distinct_number = False
-              # Set the "part number" flag back to False
-              valid_part_num = False
-            else:
-              # clear the number string
-              number_string = ""
-
-        # Special case for where a number ends at the end of the row - don't check for next digit
-        elif col_index == 139:
-          ## Post-checks
-          if valid_part_num == True:
-            # Compute the final number
-            final_number = int(number_string)
-            sum += final_number
-            # Set the "distinct number" flag back to False
-            distinct_number = False
-            # Set the "part number" flag back to False
             valid_part_num = False
           else:
             # clear the number string
