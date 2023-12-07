@@ -11,6 +11,7 @@ def main():
   file.close()
 
   sum = 0
+  sum_gears = 0
 
   # Iterate through the rows of the schematic
   for row_index, row in enumerate(engine_schematic):
@@ -18,12 +19,16 @@ def main():
     for col_index, col in enumerate(row):
       # If the character at that column is a *,
       if col == '*':
+        sum_gears += 1
         # Find its gear ratio
         # (If find_gear_ratio doesn't find exactly two adjacent parts, it just returns 0)
         gear_ratio = find_gear_ratio(engine_schematic, row_index, col_index)
+        print("Adding gear ratio", gear_ratio, "to the sum.")
         sum += gear_ratio
+        print("Current sum:", sum)
 
-  print("The sum of all the gear ratios is:", sum) # not 175!
+  print("There are", sum_gears, "gears.")
+  print("The sum of all the gear ratios is:", sum)
 
 
 # Checks the surrounding area of an asterisk for nearby part numbers.
@@ -85,17 +90,10 @@ def find_gear_ratio(engine_schematic, row_index, col_index):
     ## CHECK ABOVE
     if engine_schematic[row_index-1][col_index].isdigit():
       top = True
-
-      # If the top position is a digit but the top-left isn't,
-      if top_left == False:
-        # Check the one to the right of the top
-        pass # Hold this for later maybe
-
     ## CHECK ABOVE-RIGHT
     if col_index < 139:
       if engine_schematic[row_index-1][col_index+1].isdigit():
         top_right = True
-        # evaluate more later
 
     # If all three top slots are filled, this is a part number
     if top_left and top and top_right:
@@ -103,7 +101,7 @@ def find_gear_ratio(engine_schematic, row_index, col_index):
       number_list.append(int(number_string))
 
     # If only the top left is filled, need to see what is before it
-    elif top_left and not top:
+    elif top_left and not top and not top_right:
       # Check the unit to the left of that one to see how big the number is
       if col_index > 1 and engine_schematic[row_index-1][col_index-2].isdigit():
         # Check the unit to the left of that one also
@@ -128,7 +126,7 @@ def find_gear_ratio(engine_schematic, row_index, col_index):
         number_list.append(int(number_string))
 
     # If the top and top right are filled, but the top left isn't, check just one to their right
-    elif top_right and top and not top_left:
+    elif not top_left and top and top_right:
       # Check the unit to the right of that one to see how big the number is
       if col_index < 138 and engine_schematic[row_index-1][col_index+2].isdigit():
         number_string = engine_schematic[row_index-1][col_index] + engine_schematic[row_index-1][col_index+1] + engine_schematic[row_index-1][col_index+2]
@@ -138,11 +136,11 @@ def find_gear_ratio(engine_schematic, row_index, col_index):
         number_list.append(int(number_string))
 
     # If only the top right is filled, need to see what comes after it
-    elif top_right and not top:
+    elif not top_left and not top and top_right:
       # Check the unit to the right of that one to see how big the number is
       if col_index < 138 and engine_schematic[row_index-1][col_index+2].isdigit():
         # Check the unit to the right of that one also
-        if col_index < 137 and engine_schematic[row_index+1][col_index+3].isdigit():
+        if col_index < 137 and engine_schematic[row_index-1][col_index+3].isdigit():
           number_string = engine_schematic[row_index-1][col_index+1] + engine_schematic[row_index-1][col_index+2] + engine_schematic[row_index-1][col_index+3]
           number_list.append(int(number_string))
         elif col_index < 137:
@@ -150,6 +148,33 @@ def find_gear_ratio(engine_schematic, row_index, col_index):
           number_list.append(int(number_string))
       elif col_index < 138:
         number_string = engine_schematic[row_index-1][col_index+1]
+        number_list.append(int(number_string))
+
+    # Finally, if only the top left and top right are filled, need to get both numbers
+    elif top_left and not top and top_right:
+      # Check the units to the right
+      if col_index < 138 and engine_schematic[row_index-1][col_index+2].isdigit():
+        # Check the unit to the right of that one also
+        if col_index < 137 and engine_schematic[row_index-1][col_index+3].isdigit():
+          number_string = engine_schematic[row_index-1][col_index+1] + engine_schematic[row_index-1][col_index+2] + engine_schematic[row_index-1][col_index+3]
+          number_list.append(int(number_string))
+        elif col_index < 137:
+          number_string = engine_schematic[row_index-1][col_index+1] + engine_schematic[row_index-1][col_index+2]
+          number_list.append(int(number_string))
+      elif col_index < 138:
+        number_string = engine_schematic[row_index-1][col_index+1]
+        number_list.append(int(number_string))
+      # Then check the units to the left
+      if col_index > 1 and engine_schematic[row_index-1][col_index-2].isdigit():
+        # Check the unit to the left of that one also
+        if col_index > 2 and engine_schematic[row_index-1][col_index-3].isdigit():
+          number_string = engine_schematic[row_index-1][col_index-3] + engine_schematic[row_index-1][col_index-2] + engine_schematic[row_index-1][col_index-1]
+          number_list.append(int(number_string))
+        elif col_index > 2:
+          number_string = engine_schematic[row_index-1][col_index-2] + engine_schematic[row_index-1][col_index-1]
+          number_list.append(int(number_string))
+      elif col_index > 1:
+        number_string = engine_schematic[row_index-1][col_index-1]
         number_list.append(int(number_string))
 
   if row_index < 139:
@@ -173,7 +198,7 @@ def find_gear_ratio(engine_schematic, row_index, col_index):
       number_list.append(int(number_string))
     
     # If only the bottom left is filled, need to see what is before it
-    elif bottom_left and not bottom:
+    elif bottom_left and not bottom and not bottom_right:
       # Check the unit to the left of that one to see how big the number is
       if col_index > 1 and engine_schematic[row_index+1][col_index-2].isdigit():
         # Check the unit to the left of that one also
@@ -198,7 +223,7 @@ def find_gear_ratio(engine_schematic, row_index, col_index):
         number_list.append(int(number_string))
 
     # If the bottom and bottom right are filled, but the bottom left isn't, check just one to their right
-    elif bottom_right and bottom and not bottom_left:
+    elif not bottom_left and bottom and bottom_right:
       # Check the unit to the right of that one to see how big the number is
       if col_index < 138 and engine_schematic[row_index+1][col_index+2].isdigit():
         number_string = engine_schematic[row_index+1][col_index] + engine_schematic[row_index+1][col_index+1] + engine_schematic[row_index+1][col_index+2]
@@ -208,7 +233,7 @@ def find_gear_ratio(engine_schematic, row_index, col_index):
         number_list.append(int(number_string))
 
     # If only the bottom right is filled, need to see what comes after it
-    elif bottom_right and not bottom:
+    elif not bottom_left and not bottom and bottom_right:
       # Check the unit to the right of that one to see how big the number is
       if col_index < 138 and engine_schematic[row_index+1][col_index+2].isdigit():
         # Check the unit to the right of that one also
@@ -221,9 +246,37 @@ def find_gear_ratio(engine_schematic, row_index, col_index):
       elif col_index < 138:
         number_string = engine_schematic[row_index+1][col_index+1]
         number_list.append(int(number_string))
+    
+    # Finally, if only the bottom left and bottom right are filled, need to get both numbers
+    elif bottom_left and not bottom and bottom_right:
+      # Check the units to the right
+      if col_index < 138 and engine_schematic[row_index+1][col_index+2].isdigit():
+        # Check the unit to the right of that one also
+        if col_index < 137 and engine_schematic[row_index+1][col_index+3].isdigit():
+          number_string = engine_schematic[row_index+1][col_index+1] + engine_schematic[row_index+1][col_index+2] + engine_schematic[row_index+1][col_index+3]
+          number_list.append(int(number_string))
+        elif col_index < 137:
+          number_string = engine_schematic[row_index+1][col_index+1] + engine_schematic[row_index+1][col_index+2]
+          number_list.append(int(number_string))
+      elif col_index < 138:
+        number_string = engine_schematic[row_index+1][col_index+1]
+        number_list.append(int(number_string))
+      # Then check the units to the left
+      if col_index > 1 and engine_schematic[row_index+1][col_index-2].isdigit():
+        # Check the unit to the left of that one also
+        if col_index > 2 and engine_schematic[row_index+1][col_index-3].isdigit():
+          number_string = engine_schematic[row_index+1][col_index-3] + engine_schematic[row_index+1][col_index-2] + engine_schematic[row_index+1][col_index-1]
+          number_list.append(int(number_string))
+        elif col_index > 2:
+          number_string = engine_schematic[row_index+1][col_index-2] + engine_schematic[row_index+1][col_index-1]
+          number_list.append(int(number_string))
+      elif col_index > 1:
+        number_string = engine_schematic[row_index+1][col_index-1]
+        number_list.append(int(number_string))
 
   # Calculate the gear ratio if there are exactly two part numbers in the list
   if len(number_list) == 2:
+    print("This gear has exactly two parts next to it:", number_list[0], number_list[1])
     gear_ratio = number_list[0] * number_list[1]
   else:
     gear_ratio = 0
