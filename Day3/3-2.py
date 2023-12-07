@@ -45,10 +45,7 @@ def find_gear_ratio(engine_schematic, row_index, col_index):
   bottom = False
   bottom_right = False
 
-  # Now we need to check potentially three units to the left of the *,
-  # three units to the right of the *,
-  # seven units above the *, and seven units below the *
-
+  # First check left side
   if col_index > 0:
     ## CHECK ONE LEFT
     if engine_schematic[row_index][col_index-1].isdigit():
@@ -65,6 +62,7 @@ def find_gear_ratio(engine_schematic, row_index, col_index):
         number_string = engine_schematic[row_index][col_index-1]
         number_list.append(int(number_string))
 
+  # Next check right side
   if col_index < 139:
     ## CHECK ONE RIGHT
     if engine_schematic[row_index][col_index+1].isdigit():
@@ -81,6 +79,7 @@ def find_gear_ratio(engine_schematic, row_index, col_index):
         number_string = engine_schematic[row_index][col_index+1]
         number_list.append(int(number_string))
 
+  # Check top
   if row_index > 0:
     ## CHECK ABOVE-LEFT
     if col_index > 0:
@@ -98,6 +97,11 @@ def find_gear_ratio(engine_schematic, row_index, col_index):
     # If all three top slots are filled, this is a part number
     if top_left and top and top_right:
       number_string = engine_schematic[row_index-1][col_index-1] + engine_schematic[row_index-1][col_index] + engine_schematic[row_index-1][col_index+1]
+      number_list.append(int(number_string))
+
+    # If only the top is filled, this is a single digit
+    elif not top_left and top and not top_right:
+      number_string = engine_schematic[row_index-1][col_index]
       number_list.append(int(number_string))
 
     # If only the top left is filled, need to see what is before it
@@ -177,6 +181,7 @@ def find_gear_ratio(engine_schematic, row_index, col_index):
         number_string = engine_schematic[row_index-1][col_index-1]
         number_list.append(int(number_string))
 
+  # Check bottom
   if row_index < 139:
     ## CHECK BOTTOM-LEFT
     if col_index > 0:
@@ -196,7 +201,12 @@ def find_gear_ratio(engine_schematic, row_index, col_index):
     if bottom_left and bottom and bottom_right:
       number_string = engine_schematic[row_index+1][col_index-1] + engine_schematic[row_index+1][col_index] + engine_schematic[row_index+1][col_index+1]
       number_list.append(int(number_string))
-    
+
+    # If only the bottom is filled, this is a single digit
+    elif not bottom_left and bottom and not bottom_right:
+      number_string = engine_schematic[row_index+1][col_index]
+      number_list.append(int(number_string))
+
     # If only the bottom left is filled, need to see what is before it
     elif bottom_left and not bottom and not bottom_right:
       # Check the unit to the left of that one to see how big the number is
