@@ -11,7 +11,6 @@ def main():
   file.close()
 
   sum = 0
-  sum_gears = 0
 
   # Iterate through the rows of the schematic
   for row_index, row in enumerate(engine_schematic):
@@ -19,7 +18,6 @@ def main():
     for col_index, col in enumerate(row):
       # If the character at that column is a *,
       if col == '*':
-        sum_gears += 1
         # Find its gear ratio
         # (If find_gear_ratio doesn't find exactly two adjacent parts, it just returns 0)
         gear_ratio = find_gear_ratio(engine_schematic, row_index, col_index)
@@ -27,7 +25,6 @@ def main():
         sum += gear_ratio
         print("Current sum:", sum)
 
-  print("There are", sum_gears, "gears.")
   print("The sum of all the gear ratios is:", sum)
 
 
