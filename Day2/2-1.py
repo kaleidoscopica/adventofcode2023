@@ -9,7 +9,7 @@ def main():
       colon = new_line.index(':')
       new_line = new_line[colon+2:]
       # Create a sublist for each set within a game, and each color within a set
-      new_line = [[x.strip() for x in y.split(',')] for y in new_line.split(';')]
+      new_line = [[x.strip() for x in y.split()] for y in new_line.split('|')]
       game_data.append(new_line)
   file.close()
 
