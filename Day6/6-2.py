@@ -7,7 +7,7 @@ def main():
     race_time = 57726992
     race_distance = 291117211762026
 
-    # Read in the race distances to a second list
+    # Read in the race distance to a second variable (also flatten out all the spaces)
     second_line = file.readline()
     second_line.replace(" ", "").strip()
   file.close()
