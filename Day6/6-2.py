@@ -1,15 +1,13 @@
 def main():
   with open('input.txt') as file:
-    # Read in the race time to a variable (flatten out all the spaces)
-    first_line = file.readline()
-    first_line.replace(" ", "").strip()
-    print(first_line)
-    race_time = 57726992
-    race_distance = 291117211762026
-
-    # Read in the race distance to a second variable (also flatten out all the spaces)
-    second_line = file.readline()
-    second_line.replace(" ", "").strip()
+    # Read in the race time to a variable (and flatten out all the spaces)
+    race_time = file.readline()
+    race_time = race_time.replace("Time:", "").strip()
+    race_time = int(race_time.replace(" ", ""))
+    # Read in the race distance to a second variable (and flatten out all the spaces)
+    race_distance = file.readline()
+    race_distance = race_distance.replace("Distance:", "").strip()
+    race_distance = int(race_distance.replace(" ", ""))
   file.close()
 
   races = []
@@ -22,6 +20,6 @@ def main():
     if travel_distance > race_distance:
       races.append(travel_distance)
 
-  print("The number of available ways to win multiplied together is", len(races))
+  print("The number of available ways to win multiplied together is:", len(races))
 
 main()
