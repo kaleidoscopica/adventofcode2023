@@ -20,6 +20,6 @@ def main():
     if travel_distance > race_distance:
       races.append(travel_distance)
 
-  print("The number of available ways to win multiplied together is:", len(races))
+  print("The number of available ways to win is:", len(races))
 
 main()
